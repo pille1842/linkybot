@@ -1,0 +1,9 @@
+# Save this file as praw.ini in this folder. Add the settings and change the
+# name of the configuration setting (the MyBot part in [MyBot]) to your
+# bot's username. Then in Linkybot.py, line 92, change the MyBot part to
+# match your bot's username.
+[MyBot]
+client_id=
+client_secret=
+username=
+password=
