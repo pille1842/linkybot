@@ -78,9 +78,9 @@ class Linkybot:
                         self.log('Replied to {mention} with error'.format(mention=mention.fullname))
                     self.done.append(mention.fullname)
             except praw.exceptions.APIException as e:
-                self.log('Got an API exception: '+e)
+                self.log('Got an API exception: '+e.message)
             except praw.exceptions.ClientException as e:
-                self.log('Got a client exception: '+e)
+                self.log('Got a client exception: '+e.message)
 
     def log(self, message):
         now = datetime.datetime.now()
