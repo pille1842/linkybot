@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Linkybot v1.0.0 by /u/pille1842
+# Linkybot v1.0.1 by /u/pille1842
 # GitHub: https://github.com/pille1842/linkybot
 # See README.md for setup instructions
 
@@ -9,12 +9,14 @@ import datetime
 import praw
 # Needed to pick a random submission from a subreddit
 import random
+# Needed to check if links are from known image hosters
+import re
 
 class Linkybot:
     def __init__(self, name):
         self.name     = name
         self.r        = praw.Reddit(name,
-                        user_agent='praw:Linkybot:1.0.0 (by /u/pille1842)')
+                        user_agent='praw:Linkybot:1.0.1 (by /u/pille1842)')
         # You can add more commands yourself. Simply add more elements to
         # the list, like this:
         #   self.commands = [('command','subreddit','template'),('command','subreddit','template')]
@@ -67,8 +69,11 @@ class Linkybot:
                         posts = sub.hot(limit=50)
                         postlist = []
                         for post in posts:
-                            if not post.is_self:
-                                postlist.append(post.url)
+                            if post.is_self:
+                                continue
+                            if not re.match('(http|https)://[a-z]*\.?(imgur|gfycat|giphy)\.com', post.url):
+                                continue
+                            postlist.append(post.url)
                         url = random.choice(postlist)
                         mention.reply(template.format(url=url)+self.footer)
                         self.log('Replied to {mention} with {link}'.format(mention=mention.fullname,link=url))
